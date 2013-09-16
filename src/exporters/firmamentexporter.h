@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2010 Andrey AndryBlack Kunitsyn
+ * Copyright (c) 2010-2011 Andrey AndryBlack Kunitsyn
  * email:support.andryblack@gmail.com
  *
  * Report bugs and download new versions at http://code.google.com/p/fontbuilder
@@ -28,37 +28,22 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "exporterfactory.h"
+#ifndef FIRMAMENTEXPORTER_H
+#define FIRMAMENTEXPORTER_H
 
+#include "../abstractexporter.h"
 
-extern AbstractExporter* GHLExporterFactoryFunc (QObject*);
-extern AbstractExporter* ZFIExporterFactoryFunc (QObject* parent);
-extern AbstractExporter* DivoExporterFactoryFunc (QObject*);
-extern AbstractExporter* NGLExporterFactoryFunc (QObject*);
-extern AbstractExporter* LuaExporterFactoryFunc (QObject*);
-extern AbstractExporter* SparrowExporterFactoryFunc (QObject*);
-extern AbstractExporter* FirmamentExporterFactoryFunc (QObject*);
-
-ExporterFactory::ExporterFactory(QObject *parent) :
-    QObject(parent)
+class FirmamentExporter : public AbstractExporter
 {
-    m_factorys["GHL"] = &GHLExporterFactoryFunc;
-    m_factorys["ZenGL-zfi"] = &ZFIExporterFactoryFunc;
-    m_factorys["Divo compatible - xml"] = &DivoExporterFactoryFunc;
-    m_factorys["NGL"] = &NGLExporterFactoryFunc;
-    m_factorys["Lua table"] = &LuaExporterFactoryFunc;
-    m_factorys["Sparrow"] = &SparrowExporterFactoryFunc;
-    m_factorys["Firmament"] = &FirmamentExporterFactoryFunc;
-}
+Q_OBJECT
+public:
+    explicit FirmamentExporter(QObject *parent = 0);
+protected:
+    virtual bool Export(QByteArray& out);
+signals:
 
+public slots:
 
-QStringList ExporterFactory::names() const {
-    return m_factorys.keys();
-}
+};
 
-AbstractExporter* ExporterFactory::build(const QString &name,QObject* parent) {
-    if (m_factorys.contains(name)) {
-        return m_factorys[name](parent);
-    }
-    return 0;
-}
+#endif // FIRMAMENTEXPORTER_H
