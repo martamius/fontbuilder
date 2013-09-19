@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2011 Andrey AndryBlack Kunitsyn
+ * Copyright (c) 2013 Jordan CM Wambaugh
  * email:support.andryblack@gmail.com
  *
  * Report bugs and download new versions at http://code.google.com/p/fontbuilder
@@ -55,8 +55,9 @@ bool FirmamentExporter::Export(QByteArray& out) {
         charDef+=QString(",");
         charDef+=QString("\"width\":")+QString().number(c.placeW)+QString(",");
         charDef+=QString("\"height\":")+QString().number(c.placeH)+QString(",");
-        charDef+=QString("\"topLeft\":{\"x\":")+QString().number(c.placeW)+",\"y\":"+QString().number(c.placeH)+QString("}");
-
+        charDef+=QString("\"topLeft\":{\"x\":")+QString().number(c.placeX)+",\"y\":"+QString().number(c.placeY)+QString("},");
+        charDef+=QString("\"center\":{\"x\":")+QString().number(c.offsetX)
+                +",\"y\":"+QString().number(c.offsetY)+QString("}");
 
        // charDef+=QString("ox=")+QString().number(c.offsetX)+QString(",");
         //charDef+=QString("oy=")+QString().number(c.offsetY)+QString("}");
@@ -64,24 +65,7 @@ bool FirmamentExporter::Export(QByteArray& out) {
         res+=charDef+QString("}\n");
     }
     res+=QString("    ]\n");
-    /*QString kernings;
-    foreach (const Symbol& c , symbols()) {
-        QString charDef="{from=";
-        charDef+=charCode(c.id);
-        charDef+=QString(",to=");
-        typedef QMap<ushort,int>::ConstIterator Kerning;
-        for ( Kerning k = c.kerning.begin();k!=c.kerning.end();k++) {
-            QString def = charDef;
-            def+=charCode(k.key());
-            def+=QString(",offset=")+QString().number(k.value())+QString("}");
-            kernings+=QString("\t\t")+def+QString(",\n");
-        }
-    }
-    if (kernings.length()>2) {
-        res+=QString("\tkernings={\n");
-        res+=kernings;
-        res+=QString("\t}\n");
-    }*/
+
     res+=QString("}\n");
     out = res.toUtf8();
     return true;
